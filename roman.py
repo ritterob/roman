@@ -33,7 +33,7 @@ roman_numeral_map = (
 
 roman_numeral_pattern = re.compile('''
         ^                   # beginning of string
-        M{0,3}              # thousands - 0 to 3 Ms
+        M{0,4}              # thousands - 0 to 4 Ms
         (CM|CD|D?C{0,3})    # hundreds - 900 (CM), 400 (CD), 0-300 (0 to 3 Cs),
                             #       or 500-800 (D, followed by 0 to 3 Cs)
         (XC|XL|L?X{0,3})    # tens - 90 (XC), 40 (XL), 0-30 (0 to 3 Xs),
@@ -48,8 +48,8 @@ def to_roman(n):
     """convert integer to Roman numeral"""
     if not isinstance(n, int):
         raise NotIntegerError('non-integers cannot be converted')
-    if n < 1 or n > 3999:
-        raise OutOfRangeError('number out of range (must be less than 4000)')
+    if n < 1 or n > 4999:
+        raise OutOfRangeError('number out of range (must be less than 5000)')
 
     result = ''
     for numeral, integer in roman_numeral_map:
@@ -63,6 +63,8 @@ def from_roman(s):
     """convert Roman numeral to integer"""
     if not s:
         raise InvalidRomanNumeralError('Input cannot be blank')
+    if not isinstance(s, str):
+        raise InvalidRomanNumeralError('Input must be a string')
     if not roman_numeral_pattern.search(s):
         raise InvalidRomanNumeralError('Invalid Roman numeral: {}'.format(s))
 
